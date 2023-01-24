@@ -1,5 +1,5 @@
 import * as anchor from "@project-serum/anchor";
-import { useEffect, useMemo, useState } from "react";
+import { use, useEffect, useMemo, useState } from "react";
 import { TODO_PROGRAM_PUBKEY } from "../constants";
 import todoIDL from "../constants/buzz.json";
 import { toast, ToastContainer } from "react-toastify";
@@ -25,10 +25,22 @@ export function useProperty() {
   const [sellerInitialized, setSellerInitialized] = useState(false);
   const [buyerInitialized, setBuyerInitialized] = useState(false);
 
+  const [propertyIndex, setPropertyIndex] = useState(0);
+
   const [sellerName, setSellerName] = useState();
   const [sellerPofileUrl, setSellerProfileUrl] = useState();
-  const [buyerName , setBuyerName] = useState()
-  const [buyerProfieUrl,setBuyerProfileUrl] = useState()
+  const [buyerName, setBuyerName] = useState();
+  const [buyerProfieUrl, setBuyerProfileUrl] = useState();
+
+  const [propertyTitle, setPropertyTitle] = useState();
+  const [propertyDescription, setPropertyDescription] = useState();
+  const [propertyPrice, setPropertyPrice] = useState();
+  const [videoUrl, setVideoUrl] = useState();
+  const [propertyFirstImage, setFirstPropertyImage] = useState();
+  const [propertySecondImage, setSecondPropertyImage] = useState();
+  const [propertyThirdImage, setThirdPropertyImage] = useState();
+  const [propertyFourthImage, setFourthPropertyImage] = useState();
+  const [propertyFiveImage, setFivePropertyImage] = useState();
 
   const program = useMemo(() => {
     if (anchorWallet) {
@@ -77,11 +89,12 @@ export function useProperty() {
         }
       }
     };
+    getAllInfo();
   }, [publicKey, program]);
 
   const initializeSeller = async () => {
-    try {
-      if (program && publicKey) {
+    if (program && publicKey) {
+      try {
         setLoading(true);
         setTransactionPending(true);
         const [sellerPda] = findProgramAddressSync(
@@ -100,21 +113,21 @@ export function useProperty() {
           setSellerInitialized(true);
           setLoading(false);
         }
+      } catch (error) {
+        console.log(error);
+        setTransactionPending(false);
+      } finally {
+        setLoading(false);
+        setTransactionPending(false);
+        setSellerName("");
+        setSellerProfileUrl("");
       }
-    } catch (error) {
-      console.log(error);
-      setTransactionPending(false);
-    } finally {
-      setLoading(false);
-      setTransactionPending(false);
-      setSellerName("");
-      setSellerProfileUrl("");
     }
   };
 
   const initializedBuyer = async () => {
-    try {
-      if (program && publicKey) {
+    if (program && publicKey) {
+      try {
         setLoading(true);
         setTransactionPending(true);
         const [buyerPda] = await findProgramAddressSync(
@@ -133,16 +146,105 @@ export function useProperty() {
             .rpc();
           setBuyerInitialized(true);
         }
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+        setTransactionPending(false);
+      } finally {
+        setLoading(false);
+        setTransactionPending(false);
+        setBuyerName("");
+        setBuyerProfileUrl("");
       }
-    } catch (error) {
-      console.log(error);
-      setLoading(false)
-      setTransactionPending(false)
-    } finally {
-        setLoading(false)
-        setTransactionPending(false)
-        setBuyerName("")
-        setBuyerProfileUrl("")
+    }
+  };
+
+  const listProperty = async () => {
+    if (program && publicKey) {
+      try {
+        setLoading(true);
+        setTransactionPending(true);
+        const [listPropertyPda] = await findProgramAddressSync(
+          [
+            utf8.encode("PROPERTY_STATE"),
+            publicKey.toBuffer(),
+            Uint8Array.from([propertyIndex]),
+          ],
+          program.programId
+        );
+
+        const [sellerPda] = await findProgramAddressSync(
+          [utf8.encode("SELLER_STATE"), publicKey.toBuffer],
+          program.programId
+        );
+        if (
+          (propertyTitle,
+          propertyDescription,
+          propertyPrice,
+          videoUrl,
+          propertyFirstImage,
+          propertySecondImage,
+          propertyThirdImage,
+          propertyFourthImage,
+          propertyFiveImage)
+        ) {
+          const tx = await program.methods
+            .listProperty(
+              propertyTitle,
+              propertyDescription,
+              propertyPrice,
+              videoUrl,
+              propertyFirstImage,
+              propertySecondImage,
+              propertyThirdImage,
+              propertyFourthImage,
+              propertyFiveImage
+            )
+            .accounts({
+              sellerAccount: sellerPda,
+              propertyAccount: listPropertyPda,
+              authority: publicKey,
+              SystemProgram: SystemProgram.programId,
+            })
+            .rpc();
+        }
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+        setTransactionPending(false);
+      } finally {
+        setLoading(false);
+        setTransactionPending(false);
+        setPropertyTitle("");
+        setPropertyDescription("");
+        setPropertyPrice("");
+        setVideoUrl("");
+        setFirstPropertyImage("");
+        setSecondPropertyImage("");
+        setThirdPropertyImage("");
+        setFourthPropertyImage("");
+        setFivePropertyImage("");
+      }
+    }
+  };
+
+  const removeProperty = async () => {
+    if (program && publicKey) {
+      try {
+        setLoading(true);
+        setTransactionPending(false);
+        const [sellerPda] = await findProgramAddressSync(
+          [utf8.encode("SELLER_STATE"), publicKey.toBuffer()],
+          program.programId
+        );
+
+        const [propertyPda] = await findProgramAddressSync([
+          utf8.encode("PROPERTY_STATE"),
+        ]);
+        
+      } catch (error) {
+      } finally {
+      }
     }
   };
 
@@ -153,9 +255,19 @@ export function useProperty() {
     sellerPofileUrl,
     buyerName,
     buyerProfieUrl,
+    propertyTitle,
+    propertyDescription,
+    propertyPrice,
+    videoUrl,
+    setFirstPropertyImage,
+    propertySecondImage,
+    propertyThirdImage,
+    propertyFourthImage,
+    propertyFiveImage,
     initializeSeller,
     initializedBuyer,
+    listProperty,
     sellerInitialized,
-    buyerInitialized
+    buyerInitialized,
   };
 }
