@@ -266,6 +266,7 @@ export function useProperty() {
     }
   };
 
+  
   return {
     loading,
     transactionPending,
