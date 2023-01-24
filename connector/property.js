@@ -25,8 +25,10 @@ export function useProperty() {
   const [sellerInitialized, setSellerInitialized] = useState(false);
   const [buyerInitialized, setBuyerInitialized] = useState(false);
 
-  const [sellerName , setSellerName] = useState()
-  const [sellerPofileUrl , setSellerProfileUrl] = useState()
+  const [sellerName, setSellerName] = useState();
+  const [sellerPofileUrl, setSellerProfileUrl] = useState();
+  const [buyerName , setBuyerName] = useState()
+  const [buyerProfieUrl,setBuyerProfileUrl] = useState()
 
   const program = useMemo(() => {
     if (anchorWallet) {
@@ -101,26 +103,59 @@ export function useProperty() {
       }
     } catch (error) {
       console.log(error);
+      setTransactionPending(false);
+    } finally {
+      setLoading(false);
+      setTransactionPending(false);
+      setSellerName("");
+      setSellerProfileUrl("");
+    }
+  };
+
+  const initializedBuyer = async () => {
+    try {
+      if (program && publicKey) {
+        setLoading(true);
+        setTransactionPending(true);
+        const [buyerPda] = await findProgramAddressSync(
+          [utf8.encode("BUYER_STATE"), publicKey.toBuffer],
+          program.programId
+        );
+
+        if ((buyerName, buyerProfieUrl)) {
+          const tx = await program.methods
+            .initializeBuyer(buyerName, buyerProfieUrl)
+            .accounts({
+              buyerAccount: buyerPda,
+              authority: publicKey,
+              SystemProgram: SystemProgram.programId,
+            })
+            .rpc();
+          setBuyerInitialized(true);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      setLoading(false)
       setTransactionPending(false)
     } finally {
         setLoading(false)
         setTransactionPending(false)
-        setSellerName("")
-        setSellerProfileUrl("")
+        setBuyerName("")
+        setBuyerProfileUrl("")
     }
-  }
+  };
 
-  const initializedBuyer = async () => {
-    
-  }
-
-
-
-  return{
+  return {
     loading,
     transactionPending,
     sellerName,
     sellerPofileUrl,
-    initializeSeller
-  }
+    buyerName,
+    buyerProfieUrl,
+    initializeSeller,
+    initializedBuyer,
+    sellerInitialized,
+    buyerInitialized
+  };
 }
