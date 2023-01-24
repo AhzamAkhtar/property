@@ -228,7 +228,7 @@ export function useProperty() {
     }
   };
 
-  const removeProperty = async () => {
+  const removeProperty = async (idx) => {
     if (program && publicKey) {
       try {
         setLoading(true);
@@ -238,12 +238,30 @@ export function useProperty() {
           program.programId
         );
 
-        const [propertyPda] = await findProgramAddressSync([
-          utf8.encode("PROPERTY_STATE"),
-        ]);
-        
+        const [propertyPda] = await findProgramAddressSync(
+          [
+            utf8.encode("PROPERTY_STATE"),
+            publicKey.toBuffer(),
+            Uint8Array.from[propertyIndex],
+          ],
+          program.programId
+        );
+
+        const tx = await program.methods.removeProperty(idx)
+        .accounts({
+            sellerAccount : sellerPda,
+            propertyAccount : propertyPda,
+            authority : publicKey,
+            SystemProgram : SystemProgram.programId
+        })
+        .rpc()
+
       } catch (error) {
+        setLoading(false)
+        setTransactionPending(false)
       } finally {
+        setLoading(false)
+        setTransactionPending(false)
       }
     }
   };
@@ -267,6 +285,7 @@ export function useProperty() {
     initializeSeller,
     initializedBuyer,
     listProperty,
+    removeProperty,
     sellerInitialized,
     buyerInitialized,
   };
