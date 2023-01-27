@@ -12,8 +12,8 @@ import {
 const SellerLogin = () => {
   return (
     <>
-      <MDBContainer className="my-5" >
-        <MDBCard style={{backgroundColor:"black"}}>
+      <MDBContainer className="my-5">
+        <MDBCard style={{ backgroundColor: "black" }}>
           <MDBRow className="g-0">
             <MDBCol md="6">
               <MDBCardImage
@@ -25,8 +25,13 @@ const SellerLogin = () => {
 
             <MDBCol md="6">
               <MDBCardBody className="d-flex flex-column">
-                <div className="d-flex mt-2 d-flex flex-row-reverse">
-                  <span className="h2  mb-0" style={{color:"white"}}>Create Your Seller Account</span>
+                <div className="mt-2 d-flex flex-row-reverse">
+                  <span
+                    className="h4  mb-0"
+                    style={{ color: "white", fontSize: "3rem" }}
+                  >
+                    Create Your Seller Account....
+                  </span>
                 </div>
 
                 <MDBInput
@@ -35,27 +40,30 @@ const SellerLogin = () => {
                   type="email"
                   placeholder="Enter Your Name"
                   size="lg"
-                  style={{marginTop:"5rem",color:"white",borderRadius:"20px"}}
+                  style={{
+                    marginTop: "5rem",
+                    color: "white",
+                    borderRadius: "20px",
+                  }}
                 />
-                <label style={{color:"white"}}>
-                    Name
-                </label>
+                <label style={{ color: "white" }}>Name</label>
                 <MDBInput
                   wrapperClass="mb-2"
                   id="formControlLg"
                   type="password"
                   placeholder="Enter Your Profile Url"
-                  size="lg" 
-                  style={{marginTop:"10px",borderRadius:"20px"}}
+                  size="lg"
+                  style={{ marginTop: "10px", borderRadius: "20px" }}
                 />
-                 <label style={{color:"white"}}>
-                    Profile Url
-                </label>
+                <label style={{ color: "white" }}>Profile Url</label>
 
-                <MDBBtn className="mb-4 px-5 btn btn-light"  size="lg" style={{borderRadius:"50px",marginTop:"50px"}}>
+                <MDBBtn
+                  className="mb-4 px-5 btn btn-light"
+                  size="lg"
+                  style={{ borderRadius: "50px", marginTop: "50px" }}
+                >
                   Login
                 </MDBBtn>
-
                 <div className="d-flex flex-row justify-content-start">
                   <a href="#!" className="small text-muted me-1">
                     Terms of use.

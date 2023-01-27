@@ -25,9 +25,14 @@ import {
   
               <MDBCol md="6">
                 <MDBCardBody className="d-flex flex-column">
-                  <div className="d-flex mt-2 d-flex flex-row-reverse">
-                    <span className="h2  mb-0" style={{color:"white"}}>Create Your Account</span>
-                  </div>
+                <div className="mt-2">
+                  <span
+                    className="h4  mb-0"
+                    style={{ color: "white", fontSize: "3rem" }}
+                  >
+                    Create Your  Account....
+                  </span>
+                </div>
   
                   <MDBInput
                     wrapperClass="mb-1"
