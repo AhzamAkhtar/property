@@ -84,6 +84,7 @@ const Hero = () => {
                   ) : (
                     <>
                       <button
+                      onClick={()=>router.push("/SellerLogin")}
                         type="button"
                         class="btn btn-light"
                         style={{
@@ -115,6 +116,7 @@ const Hero = () => {
                   ) : (
                     <>
                       <button
+                      onClick={()=>router.push("/BuyerLogin")}
                         class="btn btn-light"
                         style={{
                           margin: "25px",
