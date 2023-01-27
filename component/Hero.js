@@ -40,7 +40,7 @@ const Hero = () => {
           }}
         >
           <Image
-            src="/2.jpg"
+            src="/main.jpg"
             className="rounded-3xl"
             alt="Mountains with snow"
             layout="fill"
@@ -55,58 +55,80 @@ const Hero = () => {
               fontSize: "3.5rem",
               fontWeight: "bold",
               textAlign: "center",
+              color: "white",
             }}
           >
-            Buy and Start Property
-            <p>With deProp... </p>
+            <div style={{ marginTop: "40vh" }}>
+              Buy and Sell Property
+              <p>With deProp... </p>
+            </div>
           </h1>
           <div class="flex justify-center">
             {isPublicKey ? (
               <>
-                {sellerInitialized ? (
-                  <>
-                    <button
-                      onClick={() => router.push("/main")}
-                      class={`md:mr-5 bg-white text-black py-4 px-10 rounded-3xl inline-flex items-center mx-10 mt-10 `}
-                    >
-                      <span>List Property</span>
-                      <BsArrowRight className="ml-1 w-5 text-3xl" />
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      class={`md:ml-5 bg-white text-black py-4 px-10 rounded-3xl inline-flex items-center mx-10 mt-10 `}
-                    >
-                      <span className="text-xl">
-                        Create Your Selling Account
-                      </span>
-                      <CiLogin className="ml-1 w-8 text-3xl" />
-                    </button>
-                  </>
-                )}
-                {buyerInitialized ? (
-                  <>
-                    <button
-                      onClick={() => router.push("/main")}
-                      class={`md:mr-5 bg-white text-black py-4 px-10 rounded-3xl inline-flex items-center mx-10 mt-10 `}
-                    >
-                      <span>Buy Property</span>
-                      <BsArrowRight className="ml-1 w-5 text-3xl" />
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      class={`md:ml-5 bg-white text-black py-4 px-10 rounded-3xl inline-flex items-center mx-10 mt-10 `}
-                    >
-                      <span className="text-xl">
-                        Create Your User Account
-                      </span>
-                      <CiLogin className="ml-1 w-8 text-3xl" />
-                    </button>
-                  </>
-                )}
+                <div class="d-flex justify-content-center">
+                  {sellerInitialized ? (
+                    <>
+                      <button
+                        onClick={() => router.push("/main")}
+                        className="btn btn-light"
+                        style={{
+                          marginLeft: "25px",
+                          padding: "1rem",
+                          borderRadius: "50px",
+                        }}
+                      >
+                        <span>List Property</span>
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        type="button"
+                        class="btn btn-light"
+                        style={{
+                          margin: "25px",
+                          padding: "1rem",
+                          borderRadius: "50px",
+                        }}
+                      >
+                        <span className="text-red-800">
+                          Create Your Selling Account
+                        </span>
+                      </button>
+                    </>
+                  )}
+                  {buyerInitialized ? (
+                    <>
+                      <button
+                        onClick={() => router.push("/main")}
+                        class="btn btn-light"
+                        style={{
+                          marginLeft: "25px",
+                          padding: "1rem",
+                          borderRadius: "50px",
+                        }}
+                      >
+                        <span>Buy Property</span>
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        class="btn btn-light"
+                        style={{
+                          margin: "25px",
+                          padding: "1rem",
+                          borderRadius: "50px",
+                        }}
+                      >
+                        <span className="text-xl">
+                          Create Your User Account
+                        </span>
+                      </button>
+                    </>
+                  )}
+                </div>
               </>
             ) : (
               <>
@@ -118,8 +140,6 @@ const Hero = () => {
                 />
               </>
             )}
-
-
           </div>
         </div>
       </div>
