@@ -1,7 +1,7 @@
 import * as anchor from "@project-serum/anchor";
 import { use, useEffect, useMemo, useState } from "react";
-import { TODO_PROGRAM_PUBKEY } from "../constants";
-import todoIDL from "../constants/buzz.json";
+import { TODO_PROGRAM_PUBKEY } from "../constant";
+import todoIDL from "../constant/property.json";
 import { toast, ToastContainer } from "react-toastify";
 import { PublicKey, SystemProgram } from "@solana/web3.js";
 import { utf8 } from "@project-serum/anchor/dist/cjs/utils/bytes";
